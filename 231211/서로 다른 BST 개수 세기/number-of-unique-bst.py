@@ -1,20 +1,21 @@
-MOD = 1000000007
-
-# 변수 선언 및 입력:
 n = int(input())
 
-dp = [0] * (n + 1)
+MAX_NUM = 19
 
-# 초기 조건 설정
-dp[0] = 1
-dp[1] = 2
+dp = [0 for _ in range(MAX_NUM + 1)]
 
-# 점화식에 따라 dp값 채우기
-# dp[i] = dp[i - 1] * 2 + dp[i - 2] * 3 +
-#         (dp[i - 3] + dp[i - 4] + dp[i - 5] + ... dp[0]) * 2
+def get_num_of_unique_bst(n):
+    number_of_unique_bst = 0
+    
+    for i in range(n):
+        number_of_unique_bst += dp[i] * dp[n - i - 1]
+        
+    return number_of_unique_bst
+
+
+dp[0] = dp[1] = 1
+
 for i in range(2, n + 1):
-    dp[i] = (dp[i - 1] * 2 + dp[i - 2] * 3) % MOD
-    for j in range(i - 3, -1, -1):
-        dp[i] = (dp[i] + dp[j] * 2) % MOD
-
+    dp[i] = get_num_of_unique_bst(i)
+    
 print(dp[n])
